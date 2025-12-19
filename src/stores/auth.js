@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { api } from '@/services/api';
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter();
@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('auth', () => {
   
   async function login(credentials) {
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', credentials);
+      const response = await api.post('/api/auth/login', credentials);
       const { token: authToken, user: userData } = response.data;
       
       // Salva os dados no localStorage
@@ -34,7 +34,7 @@ export const useAuthStore = defineStore('auth', () => {
   
   async function register(userData) {
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/register', userData);
+      const response = await api.post('/api/auth/register', userData);
       
       // Save user data to localStorage
       const { token, user } = response.data;
