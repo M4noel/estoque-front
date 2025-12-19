@@ -84,12 +84,13 @@ export default {
     loading.value = true
 
     await authStore.login(form.value)
-
-    router.push('/')
-
+    
+    // Redirect to the intended URL or default to '/produtos'
+    const redirectUrl = router.currentRoute.value.query.redirect || '/produtos'
+    await router.push(redirectUrl)
   } catch (error) {
     console.error('Login failed:', error)
-    alert(error.message || 'Falha no login. Verifique suas credenciais.')
+    alert(error.response?.data?.message || 'Falha no login. Verifique suas credenciais.')
   } finally {
     loading.value = false
   }

@@ -16,7 +16,7 @@ import ForgotPassword from '../views/ForgotPassword.vue';
 const routes = [
   { 
     path: '/', 
-    redirect: '/login' // Redireciona para a tela de login
+    redirect: '/produtos' // Redireciona para a lista de produtos
   },
   { 
     path: '/login', 
@@ -108,9 +108,9 @@ router.beforeEach((to, from, next) => {
   
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     // Se a rota requer autenticação e o usuário não está autenticado
-    next({ name: 'login' });
-  } else if ((to.name === 'login' || to.name === 'register') && authStore.isAuthenticated) {
-    // Se o usuário está autenticado e tenta acessar login/registro, redireciona para a página inicial
+    next({ name: 'login', query: { redirect: to.fullPath } });
+  } else if ((to.name === 'login' || to.name === 'register' || to.name === 'forgot-password') && authStore.isAuthenticated) {
+    // Se o usuário está autenticado e tenta acessar login/registro, redireciona para a página de produtos
     next({ name: 'products' });
   } else {
     // Caso contrário, permite a navegação
