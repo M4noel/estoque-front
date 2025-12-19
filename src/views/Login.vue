@@ -78,27 +78,23 @@ export default {
     })
 
     const handleLogin = async () => {
-      if (loading.value) return
+  if (loading.value) return
 
-      try {
-        loading.value = true
+  try {
+    loading.value = true
 
-        // 🔐 Faz login
-        await authStore.login(form.value)
+    await authStore.login(form.value)
 
-        // ✅ Redireciona
-        router.push('/')
+    router.push('/')
 
-        // 🔄 Recarrega a página inteira
-        window.location.reload()
+  } catch (error) {
+    console.error('Login failed:', error)
+    alert(error.message || 'Falha no login. Verifique suas credenciais.')
+  } finally {
+    loading.value = false
+  }
+}
 
-      } catch (error) {
-        console.error('Login failed:', error)
-        alert(error.message || 'Falha no login. Verifique suas credenciais.')
-      } finally {
-        loading.value = false
-      }
-    }
 
     return {
       form,
